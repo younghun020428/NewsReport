@@ -11,12 +11,12 @@ LOGS_DIR = BASE_DIR / "logs"
 for _dir in [PRIMARY_DATA_DIR, SECONDARY_DATA_DIR, INTERIM_REPORTS_DIR, LOGS_DIR]:
     _dir.mkdir(parents=True, exist_ok=True)
 
-# --- API Keys (Secrets에서 가져옴) ---
-NEWS_API_KEY = os.environ.get("NEWS_API_KEY", "")
-LLM_API_KEY = os.environ.get("LLM_API_KEY", "")
-NOTION_API_KEY = os.environ.get("NOTION_API_KEY", "")
-NOTION_DATABASE_ID = os.environ.get("NOTION_DATABASE_ID", "")
-NOTION_BRIEFING_PAGE_ID = os.environ.get("NOTION_BRIEFING_PAGE_ID", "")
+# --- API Keys (Secrets에서 가져오며, 줄바꿈/공백 자동 제거) ---
+NEWS_API_KEY = os.environ.get("NEWS_API_KEY", "").strip()
+LLM_API_KEY = os.environ.get("LLM_API_KEY", "").strip()
+NOTION_API_KEY = os.environ.get("NOTION_API_KEY", "").strip()
+NOTION_DATABASE_ID = os.environ.get("NOTION_DATABASE_ID", "").strip()
+NOTION_BRIEFING_PAGE_ID = os.environ.get("NOTION_BRIEFING_PAGE_ID", "").strip()
 
 # --- Application Settings ---
 TARGET_SECTORS = ["경제", "과학기술(반도체)", "세계 경제", "전쟁"]
