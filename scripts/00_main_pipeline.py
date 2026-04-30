@@ -23,10 +23,10 @@ def check_battery_status():
     if power_plugged:
         return True, f"전원이 연결되어 있습니다. (배터리: {percent} %)"
     
-    if percent >= 70:
+    if percent >= 50:
         return True, f"배터리 잔량이 충분합니다. ({percent} %)"
     
-    return False, f"배터리 잔량이 부족하여 실행을 스킵합니다. (현재: {percent} %, 기준: 70 %)"
+    return False, f"배터리 잔량이 부족하여 실행을 스킵합니다. (현재: {percent} %, 기준: 50 %)"
 
 def run_pipeline():
     print("=== 뉴스 큐레이션 및 알림 파이프라인 시작 ===")

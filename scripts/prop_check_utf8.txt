@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 Properties found via Requests:
  - '날짜' (repr: '날짜')
  - '수집일' (repr: '수집일')
@@ -8,3 +9,15 @@ Properties found via Requests:
  - '제목' (repr: '제목')
 
 SUCCESS: '보고서_키워드' exists!
+=======
+Properties found via Requests:
+ - '날짜' (repr: '날짜')
+ - '수집일' (repr: '수집일')
+ - '섹터' (repr: '섹터')
+ - '보고서_키워드' (repr: '보고서_키워드')
+ - 'URL' (repr: 'URL')
+ - '요약' (repr: '요약')
+ - '제목' (repr: '제목')
+
+SUCCESS: '보고서_키워드' exists!
+>>>>>>> e56edc3aed49a985e99db9e8f938d4b03704f1cb

@@ -6,6 +6,7 @@ from config import PRIMARY_DATA_DIR, NEWS_API_KEY, NEWS_QUERY_KEYWORD, get_now_k
 def fetch_news(query=NEWS_QUERY_KEYWORD, api_key=NEWS_API_KEY):
     """
     뉴스 API를 호출하여 기사 목록을 가져옵니다.
+    ※ 주의: 사용자님의 실제 News API(네이버, NewsAPI.org 등)에 맞게 엔드포인트와 파라미터를 수정해야 합니다.
     """
     now = get_now_kst()
     print(f"[{now.isoformat()}] 뉴스 수집 시작: 검색어 '{query}'")
