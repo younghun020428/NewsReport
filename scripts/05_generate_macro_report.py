@@ -59,11 +59,37 @@ def save_report(content):
 def process_macro_report():
     today_str = get_now_kst().strftime("%Y%m%d")
     from pathlib import Path
-    filtered_file = Path(__file__).parent.parent / "secondary_data" / f"filtered_news_{today_str}.json"
+    raw_file = Path(__file__).parent.parent / "primary_data" / f"raw_news_{today_str}.json"
     
-    if filtered_file.exists():
-        with open(filtered_file, "r", encoding="utf-8-sig") as f:
-            results = json.load(f)
+    if raw_file.exists():
+        with open(raw_file, "r", encoding="utf-8-sig") as f:
+            data = json.load(f)
+        
+        # 데이터 구조 파악 (리스트인지 'results' 키가 있는 딕셔너리인지)
+        results = []
+        if isinstance(data, list):
+            results = data
+        elif isinstance(data, dict):
+            # 1. 알려진 키 확인
+            for key in ["results", "articles", "news", "items"]:
+                if key in data and isinstance(data[key], list):
+                    results = data[key]
+                    break
+            
+            # 2. 키를 못 찾았다면 딕셔너리 내의 첫 번째 리스트를 사용
+            if not results:
+                for key, value in data.items():
+                    if isinstance(value, list):
+                        results = value
+                        break
+                else:
+                    # 3. 리스트가 전혀 없다면 단일 딕셔너리를 리스트화
+                    results = [data]
+        
+        if not results:
+            print(f"[{get_now_kst().isoformat()}] 분석할 뉴스를 데이터에서 찾을 수 없습니다. (Data keys: {list(data.keys()) if isinstance(data, dict) else 'Not a dict'})")
+            return
+            
         report = generate_macro_report(results)
         if report:
             save_report(report)
