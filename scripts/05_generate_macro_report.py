@@ -1,7 +1,7 @@
 import os
 import json
 import google.generativeai as genai
-from config import SECONDARY_DATA_DIR, LLM_API_KEY, get_now_kst
+from config import SECONDARY_DATA_DIR, LLM_API_KEY, get_now_kst, MODEL_NAME
 
 def generate_macro_report(results):
     """
@@ -13,7 +13,7 @@ def generate_macro_report(results):
 
     # Gemini API 설정
     genai.configure(api_key=LLM_API_KEY)
-    model = genai.GenerativeModel('gemini-2.0-flash')
+    model = genai.GenerativeModel(MODEL_NAME)
     
     # 분석용 텍스트 구성
     context_text = ""

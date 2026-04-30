@@ -1,7 +1,7 @@
 import os
 import json
 import google.generativeai as genai
-from config import SECONDARY_DATA_DIR, LLM_API_KEY, get_now_kst
+from config import SECONDARY_DATA_DIR, LLM_API_KEY, get_now_kst, MODEL_NAME
 
 def filter_and_summarize(articles):
     """
@@ -13,8 +13,8 @@ def filter_and_summarize(articles):
     # Gemini API 설정
     genai.configure(api_key=LLM_API_KEY)
     
-    # 모델 설정 (최신 gemini-2.0-flash 사용)
-    model = genai.GenerativeModel('gemini-2.0-flash')
+    # 모델 설정 (config에서 가져옴)
+    model = genai.GenerativeModel(MODEL_NAME)
     
     summarized_results = []
     
