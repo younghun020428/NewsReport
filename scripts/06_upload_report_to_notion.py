@@ -40,11 +40,11 @@ def upload_report_to_notion(report_content):
     today_str = now.strftime("%Y년 %m월 %d일")
     
     try:
-        # 하위 페이지 생성
+        # 하위 페이지 생성 (데이터베이스 내에 생성)
         new_page = notion.pages.create(
-            parent={"page_id": NOTION_BRIEFING_PAGE_ID},
+            parent={"database_id": NOTION_BRIEFING_PAGE_ID},
             properties={
-                "title": {"title": [{"text": {"content": f"{today_str} 경제 브리핑 보고서"}}]}
+                "페이지": {"title": [{"text": {"content": f"{today_str} 경제 브리핑 보고서"}}]}
             }
         )
         

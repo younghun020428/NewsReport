@@ -22,7 +22,7 @@ def get_now_kst():
 
 # --- API Keys (Secrets에서 가져오며, 기본값 유지) ---
 NEWS_API_KEY = os.environ.get("NEWS_API_KEY", "0bf993096a7041d9bf852e78993c6213").strip()
-LLM_API_KEY = os.environ.get("LLM_API_KEY", "AIzaSyB9ehSF0s8zXFzGPrIdQkwU_dMbtcjOmaY").strip()
+LLM_API_KEY = os.environ.get("LLM_API_KEY", "AIzaSyBmK3AfyRKvt3AMdWg9fpfhm9fTbaLo2AM").strip()
 NOTION_API_KEY = os.environ.get("NOTION_API_KEY", "ntn_j16731676731mfrvCc7A78r8Wd5RfbDodyEi2nWZTZl3JT").strip()
 NOTION_DATABASE_ID = os.environ.get("NOTION_DATABASE_ID", "1d577291-099e-43c0-a855-1fb90ad6e2b2").strip()
 # 브리핑 보고서 전용 페이지: "일일 경제 보고서" 페이지의 하위 페이지로 생성됨
