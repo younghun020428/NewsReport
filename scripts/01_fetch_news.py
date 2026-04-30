@@ -1,0 +1,40 @@
+import os
+import json
+import requests
+from config import PRIMARY_DATA_DIR, NEWS_API_KEY, NEWS_QUERY_KEYWORD, get_now_kst
+
+def fetch_news(query=NEWS_QUERY_KEYWORD, api_key=NEWS_API_KEY):
+    """
+    뉴스 API를 호출하여 기사 목록을 가져옵니다.
+    """
+    now = get_now_kst()
+    print(f"[{now.isoformat()}] 뉴스 수집 시작: 검색어 '{query}'")
+    
+    url = f"https://newsapi.org/v2/everything?q={query}&apiKey={api_key}&language=ko&sortBy=publishedAt"
+    try:
+        response = requests.get(url)
+        response.raise_for_status()
+        data = response.json()
+        articles = data.get("articles", [])
+        print(f"[{get_now_kst().isoformat()}] {len(articles)}개의 기사를 수집했습니다.")
+        return articles
+    except requests.exceptions.RequestException as e:
+        print(f"[{get_now_kst().isoformat()}] 뉴스 API 호출 중 오류 발생: {e}")
+        return []
+
+def save_raw_data(articles):
+    now = get_now_kst()
+    today_str = now.strftime("%Y%m%d")
+    filename = PRIMARY_DATA_DIR / f"raw_news_{today_str}.json"
+    
+    with open(filename, "w", encoding="utf-8-sig") as f:
+        json.dump(articles, f, ensure_ascii=False, indent=4)
+    print(f"[{now.isoformat()}] 원본 데이터 저장 완료: {filename}")
+    return filename
+
+if __name__ == "__main__":
+    articles = fetch_news()
+    if articles:
+        save_raw_data(articles)
+    else:
+        print("수집된 뉴스가 없습니다.")
