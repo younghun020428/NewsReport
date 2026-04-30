@@ -25,7 +25,7 @@ def filter_and_summarize(articles):
     
     출력 형식은 JSON 리스트로 해주세요:
     [
-        {"title": "기사 제목", "summary": "3줄 이내 요약", "sector": "분류", "url": "원문 링크"},
+        {{"title": "기사 제목", "summary": "3줄 이내 요약", "sector": "분류", "url": "원문 링크"}},
         ...
     ]
     
@@ -44,17 +44,36 @@ def filter_and_summarize(articles):
         response = model.generate_content(prompt_template.format(articles_text=articles_text))
         
         # 응답에서 JSON 추출 (마크다운 태그 제거 등)
-        text_response = response.text
+        text_response = response.text.strip()
+        print(f"DEBUG: AI 원본 응답 요약: {text_response[:100]}...")
+        
         if "```json" in text_response:
             text_response = text_response.split("```json")[1].split("```")[0]
         elif "```" in text_response:
             text_response = text_response.split("```")[1].split("```")[0]
             
-        summarized_results = json.loads(text_response.strip())
+        data = json.loads(text_response.strip())
+        
+        # 만약 결과가 리스트가 아니라 딕셔너리 내부에 리스트가 있는 형태라면 추출
+        if isinstance(data, dict):
+            # 'results', 'articles', 'news' 등 흔히 쓰이는 키 확인
+            for key in ['results', 'articles', 'news', 'items']:
+                if key in data and isinstance(data[key], list):
+                    data = data[key]
+                    break
+            else:
+                # 키를 못 찾았는데 딕셔너리라면 단일 아이템으로 간주하여 리스트화
+                data = [data]
+        
+        if not isinstance(data, list):
+            print(f"[{get_now_kst().isoformat()}] 오류: AI 응답이 리스트 형식이 아닙니다.")
+            return []
+
+        summarized_results = data
         print(f"[{get_now_kst().isoformat()}] {len(summarized_results)}개의 기사를 요약했습니다.")
         return summarized_results
     except Exception as e:
-        print(f"[{get_now_kst().isoformat()}] AI 요약 중 오류 발생: {e}")
+        print(f"[{get_now_kst().isoformat()}] AI 요약 중 오류 발생: {type(e).__name__} - {e}")
         return []
 
 def save_summarized_data(results):
